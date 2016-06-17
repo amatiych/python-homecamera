@@ -38,9 +38,11 @@ class CamInfo(Resource):
 
 @app.route("/",methods=["GET","POST"])
 def home():
+   caminfo = CamInfo()
+
    print("home")
    try:
-       return render_template("/camera.html")
+       return render_template("/camera.html",port=caminfo.info['port'])
    except Exception as ex:
        print(ex)
 
