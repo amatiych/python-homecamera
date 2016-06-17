@@ -1,0 +1,38 @@
+
+<head>
+<style>
+    td {
+        border-width:1px
+        
+    }
+</style>
+</head>
+{% block body %}
+
+
+<form action="" method="post">
+
+        
+	<select name="mode">
+
+	{% if request.form.mode == 'Video' %}
+		<option value="Photo"  >Photo</option>
+		<option value="Video" selected" >Video</option>
+	{% else %}
+		<option value="Photo" selected >Photo</option>
+		<option value="Video"  >Video</option>
+
+	{% endif %}
+	</select>
+	
+        <input type="submit" value="Refresh"/>
+
+ </form>
+
+	{% if request.form.mode == 'Video' %}
+            <img src="http://amatiych.ddns.net:19744/timelapse" width="640px" height="480px">
+        {% else %}
+            <img src="http://amatiych.ddns.net:19744/take_picture" width="640px" height="480px">
+	{% endif %}
+
+{% endblock %}
