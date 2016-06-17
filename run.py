@@ -85,7 +85,7 @@ try:
         api.add_resource(CamInfo,'/info')
         print("added resource to rest")
         led_onof(1)
-        app.run("0.0.0.0",port=19744)
+        app.run("0.0.0.0",port=caminfo.info['port'])
         led_onof(0)
 except Exception as ex:
         led_onof(0)
