@@ -30,9 +30,9 @@
  </form>
 
 	{% if request.form.mode == 'Video' %}
-            <img src="http://amatiych.ddns.net:{{port}}/timelapse" width="640px" height="480px">
+		<img src="{{ url_for('static', filename = 'videos/video.h264') }}" width="640px" height="480px"/>
         {% else %}
-            <img src="http://amatiych.ddns.net:{{port}}/take_picture" width="640px" height="480px">
+		<img src="{{ url_for('static', filename = 'videos/snapshot.jpg') }}" width="640px" height="480px"/>
 	{% endif %}
 
 {% endblock %}

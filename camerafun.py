@@ -56,7 +56,8 @@ def gen_videos(name,mult):
         h = int(480 * mult)
         with picamera.PiCamera(resolution=(w,h)) as camera:
                 camera.annotate_text_size = int(20*mult)
-                camera.vflip = False
+                camera.vflip = True
+                camera.hflip = True
                 #camera.frame_rate = 10
                 for _ in camera.capture_continuous(stream,format='jpeg',use_video_port=True):
                         time.sleep(0.5)
@@ -80,8 +81,8 @@ def capture_picture(name, scale):
                 camera.start_preview()
                 #camera.exposure_mode  ='night'
                 camera.annotate_text = name +' ' + time.ctime()
-                camera.vflip = False
-                time.sleep(1)
+                camera.vflip = True
+                camera.hflip = True
                 camera.annotate_text_size = int(20 * scale)
                 camera.capture(stream,format="png")
 

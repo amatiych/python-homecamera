@@ -72,6 +72,16 @@ def timelapse():
         print(ex)
         return "error "
 
+
+@app.route("/monitor")
+def show_videos():
+	folder = "/home/pi/Documents/python/homecamera/static"
+	files = os.listdir(folder)
+	return render_template("videos.html",file_list=files)
+	
+
+
+
 led = 13
 led_onof = lambda x: GPIO.output(led,x)
 
