@@ -24,7 +24,7 @@ def write_state(state):
 class CamInfo(Resource):
 
         def __init__ (self):
-                filename = "/home/pi/Documents/python/homecamera/features.json"
+                filename = "/home/pi/features.json"
                 with open(filename,'r') as f:
                         self.info = json.load(f)
                 print(self.info)
