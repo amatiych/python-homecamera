@@ -1,0 +1,22 @@
+
+<head>
+<style>
+    td {
+        border-width:1px
+        
+    }
+</style>
+</head>
+
+{% block body %}
+
+Recorded Video
+<video>
+
+ <source src="{{url_for("static",filename="videos/" +target )}}" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2"></source>
+
+</video>
+
+ <video source="{{url_for("static",filename="videos/" +target )}}" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2"></img>
+
+{% endblock %}

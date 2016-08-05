@@ -1,4 +1,6 @@
 import io
+import re
+from core import capture_ex
 import os
 import time
 import json
@@ -14,14 +16,6 @@ app = Flask(__name__)
 
 jsfile = "/home/pi/Documents/python/homecamera/camstate.json"
 
-def read_state():
-        with open(jsfile, 'r') as f:
-                return json.load(f)
-
-def write_state(state):
-        with open(jsfile, 'w') as f:
-                json.dump(state,f)
-                
 class CamInfo(Resource):
 
         def __init__ (self):
@@ -36,58 +30,34 @@ class CamInfo(Resource):
                 return self.info
 
 
-@app.route("/",methods=["GET","POST"])
-def home():
+@capture_ex
+@app.route("/")
+def home(index=0):
    caminfo = CamInfo()
-
-   print("home")
    try:
-       return render_template("/camera.html",port=caminfo.info['port'])
+       files = []
+       videos = [f for f in os.listdir("/home/pi/Documents/videos/") if 'mp4' in f]
+       for v in sorted(videos):
+                th = re.sub("mp4","jpg",v)
+                th = re.sub("_lock","",th)
+                files.append((v,th))
+       return render_template("/camera.html",port=caminfo.info['port'],files = files)
    except Exception as ex:
        print(ex)
 
-@app.route("/change_mode",methods=["GET","POST"])
-def change_mode():
-   mode = request.form["mode"]
-   return render_template("/camera.html",mode=mode)
-  
-@app.route('/take_picture')
-def take_picture():
-   caminfo = CamInfo()
-   print("taking a picture")
-   print(caminfo.info["name"])
-   return Response(capture_picture(caminfo.info["name"],1),
-   mimetype='multipart/x-mixed-replace; boundary=frame')
-
-@app.route('/timelapse')
-def timelapse():
-   #caminfo = CamInfo()
-   print("timelapse")
-   try:
-        return Response(gen_videos(caminfo.info["name"],0.5),
-        mimetype='multipart/x-mixed-replace; boundary=frame')
-   except Exception as ex:
-        if state["Mode"].lower() == 'dashcam':
-                write_state({"Mode":"off","current_file":"None"})
-        print(ex)
-        return "error "
+@app.route("/video/<target>")
+def video(target):
+   print("in view for target %s " % target)
+   #return "ok"
+   return render_template("/show.html",target=target)
 
 
-@app.route("/monitor")
-def show_videos():
-	folder = "/home/pi/Documents/python/homecamera/static"
-	files = os.listdir(folder)
-	return render_template("videos.html",file_list=files)
-	
+if __name__ == '__main__':
 
-
-
-try:
-        print("starting")
-        api = Api(app)
-        caminfo = CamInfo()
-        api.add_resource(CamInfo,'/info')
-        print("added resource to rest")
-        app.run("0.0.0.0",port=caminfo.info['port'])
-except Exception as ex:
-        print(ex)
+	try:
+        	api = Api(app)
+        	caminfo = CamInfo()
+        	api.add_resource(CamInfo,'/info')
+        	app.run("0.0.0.0",port=caminfo.info['port'])
+	except Exception as ex:
+        	print(ex)

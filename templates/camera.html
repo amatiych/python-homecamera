@@ -10,29 +10,21 @@
 {% block body %}
 
 
-<form action="" method="post">
+<img src="/static/videos/snapshot.jpg" width="640px" height="480px"/>
+<table>
+	<tr>
+	<TH colspan="2>HISTORY</Th>
+	</tr>
+	{% for file,thmb in files %}
+	<tr>
+	<td><img src="{{url_for("static",filename="videos/thumbs/"+ thmb)}}" width="160" height="120"></image></td>
+	<td><a href="{{url_for("static",filename="videos/"+ file)}}" width="160" height="120">{{file}}</a></td>
+	</tr>
+	{% endfor %}
 
-        
-	<select name="mode">
-
-	{% if request.form.mode == 'Video' %}
-		<option value="Photo"  >Photo</option>
-		<option value="Video" selected" >Video</option>
-	{% else %}
-		<option value="Photo" selected >Photo</option>
-		<option value="Video"  >Video</option>
-
-	{% endif %}
-	</select>
+</table>
 	
-        <input type="submit" value="Refresh"/>
 
  </form>
-
-	{% if request.form.mode == 'Video' %}
-		<img src="{{ url_for('static', filename = 'videos/video.h264') }}" width="640px" height="480px"/>
-        {% else %}
-		<img src="{{ url_for('static', filename = 'videos/snapshot.jpg') }}" width="640px" height="480px"/>
-	{% endif %}
 
 {% endblock %}
