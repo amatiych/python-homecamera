@@ -5,6 +5,7 @@ import json
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, Response
 import picamera
+# This is the version to use dashcam static file
 
 from  flask_restful import Resource, Api
 from camerafun import capture_picture, gen_videos
