@@ -1,6 +1,5 @@
 import io
 import os
-import RPi.GPIO as GPIO
 import time
 import json
 from flask import Flask, request, session, g, redirect, url_for, abort, \
@@ -82,23 +81,12 @@ def show_videos():
 
 
 
-led = 13
-led_onof = lambda x: GPIO.output(led,x)
-
-def setup_GPIO():
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(led,GPIO.OUT)
-
 try:
         print("starting")
-        setup_GPIO()
         api = Api(app)
         caminfo = CamInfo()
         api.add_resource(CamInfo,'/info')
         print("added resource to rest")
-        led_onof(1)
         app.run("0.0.0.0",port=caminfo.info['port'])
-        led_onof(0)
 except Exception as ex:
-        led_onof(0)
         print(ex)
